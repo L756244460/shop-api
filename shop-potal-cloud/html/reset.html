@@ -1,0 +1,128 @@
+<base href="<%=basePath%>">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="../js1/jquery.min.js"></script>
+
+    <!--&lt;!&ndash;响应式框架&ndash;&gt;
+    <link rel='stylesheet' href='../js1/login/css/bootstrap.min.css'>
+
+    &lt;!&ndash;主要样式&ndash;&gt;
+    <link rel="stylesheet" href="../js1/login/css/style.css">-->
+
+    <link href="../js1/bootstrap-3.4.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../js1/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <!-- 引入boobox弹框插件的css文件和js文件 -->
+    <script src="../js1/bootstrap-bootbox/bootbox.min.js"></script>
+    <script src="../js1/bootstrap-bootbox/bootbox.locales.min.js"></script>
+
+    <link href="../js1/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../js1/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../js1/fileinput5/css/fileinput.css"/>
+    <link href="../js1/treetable/css/jquery.treetable.css" rel="stylesheet">
+    <link href="../js1/treetable/css/jquery.treetable.theme.default.css" rel="stylesheet">
+    <link rel="stylesheet" href="../js1/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+
+<div class="container">
+        <div class="col-md-12">
+            <ul class="bg-danger" id="errorDiv"></ul>
+            <form class="form-horizontal" id="spuForm">
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">邮箱:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="mail" name="mail" placeholder="请输入邮箱">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">验证码:</label>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="code" name="code" placeholder="请输入验证码">
+                            <span class="input-group-btn" id="codeSpan">
+
+                            </span>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-link" onclick="initCode();">看不清，换一张</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-primary" id="redButton" onclick="restMail()">找回密码</button>
+                <button type="button" class="btn btn-primary" onclick="location.reload();"><span class="glyphicon glyphicon-refresh"></span> 重置</button>
+            </div>
+        </div>
+</div>
+
+
+<script type="text/javascript" src="../js1/bootstrap-3.4.1-dist/js/index.js"></script>
+<script src="../js1/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="../js1/bootstrap3/js/bootstrap.min.js"></script>
+<script src="../js1/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="../js1/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
+<script src="../js1/bootbox/bootbox.min.js"></script>
+<script src="../js1/bootbox/bootbox.locales.min.js"></script>
+<script src="../js1/fileinput5/js/fileinput.js"></script>
+<script src="../js1/fileinput5/js/locales/zh.js"></script>
+<script src="../js1/treetable/jquery.treetable.js"></script>
+<script src="../js1/bootstrap-datetimepicker/js/moment-with-locales.js"></script>
+<script src="../js1/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/jquery.cookie.min.js"></script>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        initCode();
+    })
+
+    function initCode() {
+        var id=$.cookie("codeId");
+        $.ajax({
+            url:server_url+"/code",
+            type:"get",
+            data:{"id":id},
+            success:function (result) {
+
+                    var base64Image=result.data.base64Image;
+                    var codeId=result.data.id
+                    $("#codeSpan").html('<img src="data:image/jpg;base64,'+base64Image+'" />');
+                    $.cookie("codeId",codeId);
+
+            }
+        })
+    }
+
+    function restMail() {
+        var code=$("#code").val();
+        var mail=$("#mail").val();
+        var keyId=$.cookie("codeId");
+        $.ajax({
+            url:server_url+"/member/findMail",
+            type:"post",
+            data:{"code":code,"Mail":mail,"keyId":keyId},
+            success:function (result) {
+                if (result.code==200){
+                    alert("ok");
+                    location.href="login.html";
+                }else {
+                    alert(result.msg);
+                }
+            }
+        })
+    }
+
+
+
+
+</script>
+</html>

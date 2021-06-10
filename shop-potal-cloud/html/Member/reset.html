@@ -1,0 +1,183 @@
+<base href="<%=basePath%>">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="../../js1/jquery.min.js"></script>
+
+    <!--&lt;!&ndash;响应式框架&ndash;&gt;
+    <link rel='stylesheet' href='../../js1/login/css/bootstrap.min.css'>
+
+    &lt;!&ndash;主要样式&ndash;&gt;
+    <link rel="stylesheet" href="../../js1/login/css/style.css">-->
+
+    <link href="../../js1/bootstrap-3.4.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../../js1/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <!-- 引入boobox弹框插件的css文件和js文件 -->
+    <script src="../../js1/bootstrap-bootbox/bootbox.min.js"></script>
+    <script src="../../js1/bootstrap-bootbox/bootbox.locales.min.js"></script>
+
+    <link href="../../js1/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../js1/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../../js1/fileinput5/css/fileinput.css"/>
+    <link href="../../js1/treetable/css/jquery.treetable.css" rel="stylesheet">
+    <link href="../../js1/treetable/css/jquery.treetable.theme.default.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../js1/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+
+<div class="container">
+        <div class="col-md-12">
+            <ul class="bg-danger" id="errorDiv"></ul>
+            <form class="form-horizontal" id="spuForm">
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">会员名:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="请输入会员名">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="send()" id="codeTime">获取验证码!</button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">验证码:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="mail" name="mail" placeholder="请输入邮箱验证码">
+                    </div>
+                </div>
+            </form>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-primary" id="redButton" onclick="restMail()">提交</button>
+                <button type="button" class="btn btn-primary" onclick="location.reload();"><span class="glyphicon glyphicon-refresh"></span> 重置</button>
+            </div>
+        </div>
+</div>
+
+<div id="mailDiv" style="display: none">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label  class="col-sm-2 control-label">新密码:</label>
+            <div class="col-sm-5">
+                <input type="password" class="form-control" id="update_mailPassword" name="passWord" placeholder="请输入新密码">
+            </div>
+        </div>
+        <div class="form-group" style="height: 400px;">
+            <label  class="col-sm-2 control-label">确认密码:</label>
+            <div class="col-sm-5">
+                <input type="password" class="form-control" id="update_mailPassword1" name="passWord1" placeholder="请输入新密码">
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="../../js1/bootstrap-3.4.1-dist/js/index.js"></script>
+<script src="../../js1/jquery.min.js"></script>
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="../../js1/bootstrap3/js/bootstrap.min.js"></script>
+<script src="../../js1/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="../../js1/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
+<script src="../../js1/bootbox/bootbox.min.js"></script>
+<script src="../../js1/bootbox/bootbox.locales.min.js"></script>
+<script src="../../js1/fileinput5/js/fileinput.js"></script>
+<script src="../../js1/fileinput5/js/locales/zh.js"></script>
+<script src="../../js1/treetable/jquery.treetable.js"></script>
+<script src="../../js1/bootstrap-datetimepicker/js/moment-with-locales.js"></script>
+<script src="../../js1/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/common.js"></script>
+
+</body>
+<script type="text/javascript">
+
+
+    /*$(function () {
+        
+    })*/
+
+    function send() {
+        var memberName=$("#memberName").val();
+        console.log(memberName)
+        if (memberName){
+            $.ajax({
+                url:server_url+"/member/sendMail",
+                data:{"memberName":memberName},
+                type:"post",
+                success:function(result){
+                    console.log(result)
+                    if (result.code==200){
+                        alert(result.data);
+                    }else {
+                        alert(result.msg);
+                    }
+                },
+            })
+        }else {
+            alert("请输入会员名");
+        }
+    }
+
+    function restMail() {
+        var memberName=$("#memberName").val();
+        var mailCode=$("#mail").val();
+        $.ajax({
+            url:server_url+"/member/restMail",
+            data:{"memberName":memberName,"mailCode":mailCode},
+            type:"post",
+            success:function(result){
+                console.log(result)
+                if (result.code==200){
+                    var id=result.data.id;
+                    //备份
+                    var v_mailHtml = $("#mailDiv").html();
+                    //弹框
+                    var v_brandDlg = bootbox.dialog({
+                        title:'增加品牌',
+                        message:$("#mailDiv form"),
+                        size:"large",
+                        buttons:{
+                            confirm:{
+                                label:'<span class="glyphicon-exclamation-ok"></span>确认',
+                                className:'btn-primary',
+                                callback:function () {
+                                    //获取参数
+                                    var password = $("#update_mailPassword",v_brandDlg).val();
+                                    var password1 = $("#update_mailPassword1",v_brandDlg).val();
+                                    var param = {};
+                                    param.password = password;
+                                    param.password1 = password1;
+                                    param.id=id;
+                                    console.log(param);
+                                    //发送ajax请求，传递参数
+                                    $.post({
+                                        url:server_url+"/member/updatePassword",
+                                        data:param,
+                                        success:function (result) {
+                                            if(result.code == 200){
+                                                //添加成功，刷新
+                                                alert("修改成功");
+                                            }
+                                        }
+                                    });
+                                }
+                            },
+                            cancel:{
+                                label:'<span class="glyphicon-exclamation-remove"></span>取消',
+                                className:'btn-danger'
+                            }
+                        }
+                    });
+                    //还原
+                    $("#mailDiv").html(v_mailHtml);
+                }else {
+                    alert(result.msg);
+                }
+            },
+        })
+    }
+
+
+
+</script>
+</html>

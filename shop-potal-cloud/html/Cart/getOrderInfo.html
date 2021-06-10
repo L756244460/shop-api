@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<title>结算页</title>
+	<link href="../../js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../js/shop/css/webbase.css" />
+	<link rel="stylesheet" type="text/css" href="../../js/shop/css/pages-getOrderInfo.css" />
+
+
+	<link href="../../js1/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
+	<link href="../../js1/treetable/css/jquery.treetable.css" rel="stylesheet">
+	<link href="../../js1/treetable/css/jquery.treetable.theme.default.css" rel="stylesheet">
+	<link rel="stylesheet" href="../../js1/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+</head>
+
+<body>
+<!--head-->
+<div class="top" >
+	<div class="py-container">
+		<div class="shortcut">
+			<ul class="fl">
+				<li class="f-item">品优购欢迎您！</li>
+				<li class="f-item">请登录　<span><a href="#">免费注册</a></span></li>
+			</ul>
+			<ul class="fr">
+				<li class="f-item">我的订单</li>
+				<li class="f-item space"></li>
+				<li class="f-item">我的品优购</li>
+				<li class="f-item space"></li>
+				<li class="f-item">品优购会员</li>
+				<li class="f-item space"></li>
+				<li class="f-item">企业采购</li>
+				<li class="f-item space"></li>
+				<li class="f-item">关注品优购</li>
+				<li class="f-item space"></li>
+				<li class="f-item">客户服务</li>
+				<li class="f-item space"></li>
+				<li class="f-item">网站导航</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="cart py-container"  id="bodyDiv">
+	<!--logoArea-->
+	<div class="logoArea">
+		<div class="fl logo"><span class="title">结算页</span></div>
+		<div class="fr search">
+			<form class="sui-form form-inline">
+				<div class="input-append">
+					<input type="text" type="text" class="input-error input-xxlarge" placeholder="品优购自营" />
+					<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--主内容-->
+	<div class="checkout py-container">
+		<div class="checkout-tit">
+			<h4 class="tit-txt">填写并核对订单信息</h4>
+		</div>
+		<div class="checkout-steps">
+			<!--收件人信息-->
+			<div class="step-tit">
+				<h5>收件人信息<span><a onclick="addArea();">新增收货地址</a></span></h5>
+			</div>
+			<div class="step-cont">
+				<div class="addressInfo">
+					<ul class="addr-detail">
+						<li class="addr-item" id="areaMemeberDiv">
+
+
+
+
+						</li>
+
+
+					</ul>
+					<!--添加地址-->
+					<!--<div  tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade edit">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
+									<h4 id="myModalLabel" class="modal-title">添加收货地址</h4>
+								</div>
+								<div class="modal-body">
+									<form action="" class="sui-form form-horizontal">
+										<div class="control-group">
+											<label class="control-label">收货人：</label>
+											<div class="controls">
+												<input type="text" class="input-medium">
+											</div>
+										</div>
+
+										<div class="control-group">
+											<label class="control-label">详细地址：</label>
+											<div class="controls">
+												<input type="text" class="input-large">
+											</div>
+										</div>
+										<div class="control-group">
+											<label class="control-label">联系电话：</label>
+											<div class="controls">
+												<input type="text" class="input-medium">
+											</div>
+										</div>
+
+									</form>
+
+
+								</div>
+								<div class="modal-footer">
+									<button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
+									<button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
+								</div>
+							</div>
+						</div>
+					</div>-->
+					<!--确认地址-->
+				</div>
+				<div class="hr"></div>
+
+			</div>
+
+
+			<div class="hr"></div>
+			<!--支付和送货-->
+			<div class="payshipInfo">
+				<div class="step-tit">
+					<h5>支付方式</h5>
+				</div>
+				<div class="step-cont">
+					<ul class="payType">
+						<li class="selected">微信付款<span title="点击取消选择"></span></li>
+						<li>货到付款<span title="点击取消选择"></span></li>
+					</ul>
+				</div>
+				<div class="hr"></div>
+				<div class="step-tit">
+					<h5>送货清单</h5>
+				</div>
+				<div class="step-cont">
+					<ul class="send-detail">
+						<li>
+
+							<div class="sendGoods" id="cartSkuDiv">
+
+
+
+
+
+
+
+
+
+
+
+							</div>
+						</li>
+						<li></li>
+						<li></li>
+					</ul>
+				</div>
+				<div class="hr"></div>
+			</div>
+			<div class="linkInfo">
+				<div class="step-tit">
+					<h5>发票信息</h5>
+				</div>
+				<div class="step-cont">
+					<span>普通发票（电子）</span>
+					<span>个人</span>
+					<span>明细</span>
+				</div>
+			</div>
+			<div class="cardInfo">
+				<div class="step-tit">
+					<h5>使用优惠/抵用</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--cartCountPriceDiv-->
+	<div class="order-summary" id="totlPriceDiv">
+
+
+
+	</div>
+
+
+
+	<!--cartTotalDiv-->
+	<div class="clearfix trade" id="cartWeiDiv">
+
+	</div>
+
+
+	<div class="submit">
+		<a class="sui-btn btn-danger btn-xlarge" onclick="addOrder(id)">提交订单</a>
+	</div>
+</div>
+
+
+<!--cartCountPriceDiv-->
+<div style="display: none" id="cartCountPriceDiv">
+	<div class="static fr">
+		<div class="list">
+			<span><i class="number">##totleCount##</i>件商品，总商品金额</span>
+			<em class="allprice">##totlPrice##</em>
+		</div>
+		<div class="list">
+			<span>返现：</span>
+			<em class="money">0.00</em>
+		</div>
+		<div class="list">
+			<span>运费：</span>
+			<em class="transport">0.00</em>
+		</div>
+	</div>
+</div>
+
+
+<!--cartTotalDiv-->
+<div style="display: none" id="cartTotalDiv">
+	<div class="fc-price">应付金额:　<span class="price">##totlPrice##</span></div>
+	<div class="fc-receiverInfo" id="addrDiv"></div>
+</div>
+
+
+
+
+<!-- 底部栏位 -->
+<!--页面底部-->
+<div class="clearfix footer">
+	<div class="py-container">
+		<div class="footlink">
+			<div class="Mod-service">
+				<ul class="Mod-Service-list">
+					<li class="grid-service-item intro  intro1">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item  intro intro2">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item intro  intro3">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item  intro intro4">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+					<li class="grid-service-item intro intro5">
+
+						<i class="serivce-item fl"></i>
+						<div class="service-text">
+							<h4>正品保障</h4>
+							<p>正品保障，提供发票</p>
+						</div>
+
+					</li>
+				</ul>
+			</div>
+			<div class="clearfix Mod-list">
+				<div class="yui3-g">
+					<div class="yui3-u-1-6">
+						<h4>购物指南</h4>
+						<ul class="unstyled">
+							<li>购物流程</li>
+							<li>会员介绍</li>
+							<li>生活旅行/团购</li>
+							<li>常见问题</li>
+							<li>购物指南</li>
+						</ul>
+
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>配送方式</h4>
+						<ul class="unstyled">
+							<li>上门自提</li>
+							<li>211限时达</li>
+							<li>配送服务查询</li>
+							<li>配送费收取标准</li>
+							<li>海外配送</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>支付方式</h4>
+						<ul class="unstyled">
+							<li>货到付款</li>
+							<li>在线支付</li>
+							<li>分期付款</li>
+							<li>邮局汇款</li>
+							<li>公司转账</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>售后服务</h4>
+						<ul class="unstyled">
+							<li>售后政策</li>
+							<li>价格保护</li>
+							<li>退款说明</li>
+							<li>返修/退换货</li>
+							<li>取消订单</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+						<h4>特色服务</h4>
+						<ul class="unstyled">
+							<li>夺宝岛</li>
+							<li>DIY装机</li>
+							<li>延保服务</li>
+							<li>品优购E卡</li>
+							<li>品优购通信</li>
+						</ul>
+					</div>
+					<div class="yui3-u-1-6">
+					</div>
+				</div>
+			</div>
+			<div class="Mod-copyright">
+				<ul class="helpLink">
+					<li>关于我们<span class="space"></span></li>
+					<li>联系我们<span class="space"></span></li>
+					<li>关于我们<span class="space"></span></li>
+					<li>商家入驻<span class="space"></span></li>
+					<li>营销中心<span class="space"></span></li>
+					<li>友情链接<span class="space"></span></li>
+					<li>关于我们<span class="space"></span></li>
+					<li>营销中心<span class="space"></span></li>
+					<li>友情链接<span class="space"></span></li>
+					<li>关于我们</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="itemDiv" style="display: none">
+	<div>
+		<div class="con name ##check##" onclick="updateStatu(##id##)"><a href="javascript:;" >##recipient##<span title="点击取消选择">&nbsp;</a></div>
+		<div class="con address" onclick="updateTotalArea(##id##,this);">##recipient## ##area## <span>##recipientPhone##</span>
+			<span style="display: none"><a onclick="updateArea(##id##)">编辑</a>&nbsp;&nbsp;<a href="javascript:;" onclick="deleteArea(##id##)">删除</a></span>
+			<!--<span class="base">默认地址</span>-->
+			##base##
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+
+
+<div id="addAreaDiv" style="display: none">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">收件人名称:</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="add_recipient" name="recipient" placeholder="请输入收件人名称">
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">收件人地址:</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="add_area" name="area" placeholder="请输入收件人地址">
+			</div>
+		</div>
+		<div class="form-group">
+			<label  class="col-sm-2 control-label">收件人电话:</label>
+			<div class="col-sm-5">
+				<input type="text" class="form-control" id="add_recipientPhone" name="recipientPhone" placeholder="请输入手机号">
+			</div>
+		</div>
+	</form>
+</div>
+
+
+
+<!--页面底部END-->
+<script src="../../js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="../../js/shop/js/plugins/jquery/jquery.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/jquery.cookie.min.js"></script>
+<script src="../../js/bootbox/bootbox.min.js"></script>
+<script src="../../js/bootbox/bootbox.locales.min.js"></script>
+
+
+
+<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+<script src="../../js/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../js1/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="../../js1/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
+</body>
+<script>
+	$(function () {
+        initCart();
+        initMemberArea();
+        findToken();
+    })
+
+
+	var v_token;
+	function findToken() {
+        $.ajax({
+            type:"post",
+            url:server_url+"/token/createToken",
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+            },
+            success:function (result) {
+                if (result.code==200){
+                    v_token=result.data;
+                }else if (result.code==4011 || result.code==4013){
+                    $("#bodyDiv").html("<h1>请先进行<a href='login.html'>登录</a>再结算</h1>");
+                }
+            }
+        })
+    }
+	
+	
+	
+
+	function deleteArea(id) {
+        $.ajax({
+            type:"POST",
+            url:server_url+"/area/deleteArea",
+            data:{"id":id},
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+            },
+            success:function (result) {
+                if (result.code==200){
+                    alert("删除成功");
+                    initMemberArea();
+                }else if (result.code==4011 || result.code==4013){
+                    $("#bodyDiv").html("<h1>请先进行<a href='login.html'>登录</a>再结算</h1>");
+                }
+            }
+        })
+    }
+
+
+
+	function updateArea(id) {
+        $.ajax({
+            type:"get",
+            url:server_url+"/area/queryAreaById",
+            data:{"id":id},
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+            },
+            success:function (result) {
+				if (result.code==200){
+				    console.log(result)
+				    var area=result.data;
+				    console.log(area)
+
+				    $("#add_recipient").val(area.recipient);
+				    $("#add_area").val(area.area);
+				    $("#add_recipientPhone").val(area.recipientPhone);
+                    //备份
+                    var v_areaHtml = $("#addAreaDiv").html();
+                    //渲染上传组件
+                    //配置信息
+                    //弹框
+                    var v_areaDlg = bootbox.dialog({
+                        title:'增加品牌',
+                        message:$("#addAreaDiv form"),
+                        size:"large",
+                        buttons:{
+                            confirm:{
+                                label:'<span class="glyphicon-exclamation-ok"></span>确认',
+                                className:'btn-primary',
+                                callback:function () {
+                                    //获取参数
+                                    var recipientPhone = $("#add_recipientPhone",v_areaDlg).val();
+                                    var area = $("#add_area",v_areaDlg).val();
+                                    var recipient = $("#add_recipient",v_areaDlg).val();
+                                    var param = {};
+                                    param.recipientPhone = recipientPhone;
+                                    param.id = id;
+                                    param.area = area;
+                                    param.recipient = recipient;
+                                    console.log(param);
+                                    //发送ajax请求，传递参数
+                                    $.ajax({
+                                        type:"POST",
+                                        url:server_url+"/area/updateArea",
+                                        data:param,
+                                        beforeSend:function(xhr){
+                                            var auth=$.cookie("token");
+                                            xhr.setRequestHeader("x-auth",auth);
+                                        },
+                                        success:function (result) {
+                                            if(result.code == 200){
+                                                initMemberArea();
+                                                //修改成功，刷新
+                                                alert("ok");
+                                            }
+                                        }
+                                    });
+                                }
+                            },
+                            cancel:{
+                                label:'<span class="glyphicon-exclamation-remove"></span>取消',
+                                className:'btn-danger'
+                            }
+                        }
+                    });
+                    //还原
+                    $("#addAreaDiv").html(v_areaHtml);
+				}
+            }
+        })
+    }
+
+	function updateTotalArea(id,obj) {
+        for (const area of areaList) {
+			if (area.id==id){
+                v_selevtItem=area;
+                $("#addrDiv").html("寄送至:"+area.area+"收货人："+area.recipient+" "+area.recipientPhone);
+			}
+        }
+        $(".con.address").css("font-weight","");
+        $(obj).css("font-weight","bold");
+    }
+
+
+	function updateStatu(id) {
+        $.ajax({
+            type:"POST",
+            url:server_url+"/area/updateStatu",
+			data:{"id":id},
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+            },
+            success:function (result) {
+                if (result.code==200){
+                    initMemberArea();
+                }else if (result.code==4011 || result.code==4013){
+                    $("#bodyDiv").html("<h1>请先进行<a href='login.html'>登录</a>再结算</h1>");
+                }
+            }
+        })
+    }
+
+    var v_selevtItem;
+    var areaList;
+	function initMemberArea() {
+        $.ajax({
+            type:"GET",
+            url:server_url+"/area/queryArea",
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+            },
+            success:function (result) {
+                if (result.code==200){
+                    console.log(result)
+                    areaList=result.data;
+                    var html=$("#itemDiv").html();
+                    var htmlStr="";
+                    for (const area of areaList) {
+						htmlStr+=html.replace(/##recipient##/g,area.recipient)
+                            			.replace(/##area##/g,area.area)
+                            			.replace(/##id##/g,area.id)
+                            			.replace(/##check##/g,area.statu=='1'?"selected":"")
+                            			.replace(/##base##/g,area.statu=='1'?"<span class=\"base\">默认地址</span>":"")
+                            			.replace(/##recipientPhone##/g,area.recipientPhone);
+						if (area.statu=="1"){
+                            v_selevtItem=area;
+							$("#addrDiv").html("寄送至:"+area.area+"收货人："+area.recipient+" "+area.recipientPhone);
+						}
+                    }
+                    $("#areaMemeberDiv").html(htmlStr);
+                    initEvent();
+
+                }else if (result.code==4011 || result.code==4013){
+                    $("#bodyDiv").html("<h1>请先进行<a href='login.html'>登录</a>再结算</h1>");
+                }
+            }
+        })
+    }
+
+
+
+    
+    function initEvent() {
+		$(".con.address").hover(function () {
+			$(this).children().last().show();
+        },function(){
+            $(this).children().last().hide();
+		})
+    }
+
+
+    function initCart(){
+        $.ajax({
+            type:"GET",
+            url:server_url+"/cart/queryCart",
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+            },
+            success:function (result) {
+                if (result.code==200){
+                    console.log(result)
+                    if (result.data==null){
+                        $("#bodyDiv").html("<h1>请<a href='index.html'>购买</a></h1>");
+                        return;
+                    }
+                    var iteamVoList=result.data.iteamVoList;
+                    console.log(iteamVoList)
+                    var totalCount=result.data.totalCount;
+                    var totalPrice=result.data.totalPrice;
+                    var html="";
+                    for (const voList of iteamVoList) {
+                        html+='<ul class="yui3-g">\n' +
+                            '\t\t\t\t\t\t\t\t\t<li class="yui3-u-1-6">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<span><img src="'+voList.skuImage+'"/></span>\n' +
+                            '\t\t\t\t\t\t\t\t\t</li>\n' +
+                            '\t\t\t\t\t\t\t\t\t<li class="yui3-u-7-12">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="desc">'+voList.skuName+'</div>\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="seven">7天无理由退货</div>\n' +
+                            '\t\t\t\t\t\t\t\t\t</li>\n' +
+                            '\t\t\t\t\t\t\t\t\t<li class="yui3-u-1-12">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="price">￥'+voList.countPrice+'</div>\n' +
+                            '\t\t\t\t\t\t\t\t\t</li>\n' +
+                            '\t\t\t\t\t\t\t\t\t<li class="yui3-u-1-12">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="num">X'+voList.count+'</div>\n' +
+                            '\t\t\t\t\t\t\t\t\t</li>\n' +
+                            '\t\t\t\t\t\t\t\t\t<li class="yui3-u-1-12">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t<div class="exit">有货</div>\n' +
+                            '\t\t\t\t\t\t\t\t\t</li>\n' +
+                            '\t\t\t\t\t\t\t\t</ul>';
+                        $("#cartSkuDiv").html(html);
+                    }
+
+
+
+					 var cartTotalDiv=$("#cartTotalDiv").html();
+                    var res=cartTotalDiv.replace(/##totlPrice##/g,"$"+totalPrice);
+                    $("#cartWeiDiv").html(res);
+
+
+
+                    var cartCountDiv=$("#cartCountPriceDiv").html();
+                    var cartCountDivStr=cartCountDiv.replace(/##totleCount##/g,totalCount)
+						                             .replace(/##totlPrice##/g,"$"+totalPrice);
+                    $("#totlPriceDiv").html(cartCountDivStr);
+
+
+
+                }else if (result.code==4011 || result.code==4013){
+                    $("#bodyDiv").html("<h1>请先进行<a href='login.html'>登录</a>再结算</h1>");
+                }
+            }
+        })
+    }
+
+    function addArea() {
+        //备份
+        var v_areaHtml = $("#addAreaDiv").html();
+        //渲染上传组件
+        //配置信息
+        //弹框
+        var v_areaDlg = bootbox.dialog({
+            title:'增加品牌',
+            message:$("#addAreaDiv form"),
+            size:"large",
+            buttons:{
+                confirm:{
+                    label:'<span class="glyphicon-exclamation-ok"></span>确认',
+                    className:'btn-primary',
+                    callback:function () {
+                        //获取参数
+                        var recipientPhone = $("#add_recipientPhone",v_areaDlg).val();
+                        var area = $("#add_area",v_areaDlg).val();
+                        var recipient = $("#add_recipient",v_areaDlg).val();
+                        var param = {};
+                        param.recipientPhone = recipientPhone;
+                        param.area = area;
+                        param.recipient = recipient;
+                        console.log(param);
+                        //发送ajax请求，传递参数
+                        $.ajax({
+                            type:"POST",
+                            url:server_url+"/area/addArea",
+                            data:param,
+                            beforeSend:function(xhr){
+                                var auth=$.cookie("token");
+                                xhr.setRequestHeader("x-auth",auth);
+                            },
+                            success:function (result) {
+                                if(result.code == 200){
+                                    initMemberArea();
+                                    //添加成功，刷新
+                                    alert("ok");
+                                }
+                            }
+                        });
+                    }
+                },
+                cancel:{
+                    label:'<span class="glyphicon-exclamation-remove"></span>取消',
+                    className:'btn-danger'
+                }
+            }
+        });
+        //还原
+        $("#addAreaDiv").html(v_areaHtml);
+    }
+    
+    
+    function addOrder(areaId) {
+        areaId=v_selevtItem.id;
+		if (!areaId){
+            alert("请添加收件人信息");
+            return;
+		}
+        var payType=0;
+        $.ajax({
+			type:"get",
+			data:{"payType":payType,"areaId":areaId},
+			url:server_url+"/order/addOrder",
+            beforeSend:function(xhr){
+                var auth=$.cookie("token");
+                xhr.setRequestHeader("x-auth",auth);
+                xhr.setRequestHeader("x-token",v_token);
+            },
+            success:function (result) {
+                if(result.code == 200){
+                   	location.href="../cartList.html";
+                }
+            }
+		})
+
+    }
+    
+    
+
+</script>
+
+</html>

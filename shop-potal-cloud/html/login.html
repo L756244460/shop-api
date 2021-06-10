@@ -1,0 +1,98 @@
+<base href="<%=basePath%>">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="../js1/jquery.min.js"></script>
+
+    <!--响应式框架-->
+    <link rel='stylesheet' href='../js1/login/css/bootstrap.min.css'>
+
+    <!--主要样式-->
+    <link rel="stylesheet" href="../js1/login/css/style.css">
+
+    <link href="../js1/bootstrap-3.4.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../js1/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <!-- 引入boobox弹框插件的css文件和js文件 -->
+    <script src="../js1/bootstrap-bootbox/bootbox.min.js"></script>
+    <script src="../js1/bootstrap-bootbox/bootbox.locales.min.js"></script>
+
+    <!-- 引入validator js css -->
+    <script type="text/javascript" src="../js1/bootstrapValidator/js/bootstrapValidator.js"></script>
+    <link href="../js1/bootstrapValidator/css/bootstrapValidator.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="card-wrap">
+
+        <div class="card border-0 shadow card--welcome is-show" id="welcome">
+            <div class="card-body">
+                <h2 class="card-title">欢迎光临</h2>
+                <div class="btn-wrap">
+                    <a class="btn btn-lg btn-login js-btn" data-target="login">登录</a><br>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--------=登录页面 ------------------------------>
+        <div class="card border-0 shadow card--login" id="login">
+            <div class="card-body">
+                <h2 class="card-title">欢迎登录！</h2>
+                <form id="loginForm">
+                    <!-- 用户名 -->
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="用户名" required="required" value="admin" name="memberName" id="memberName" autocomplete="off">
+                    </div>
+                    <!-- 密码 -->
+                    <div class="form-group">
+                        <input class="form-control" type="password" placeholder="密码" required="required" value="123" id="passWord" name="passWord" autocomplete="off">
+                    </div>
+                    <button class="btn btn-lg" type="button" onclick="login()">登录</button>
+                </form>
+            </div>
+            <button class="btn btn-back js-btn" data-target="welcome"><i class="fas fa-angle-left"></i></button>
+        </div>
+
+
+</div>
+</div>
+<script type="text/javascript" src="../js1/bootstrap-3.4.1-dist/js/index.js"></script>
+<script src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery.cookie.min.js"></script>
+<script src="../js/common.js"></script>
+</body>
+<script type="text/javascript">
+
+    function login(){
+
+        var memberName = $("#login #memberName").val();
+        var passWord = $("#login #passWord").val();
+
+        $.post({
+            url:"http://localhost:9000/member/api"+"/member/login",
+            data:{"memberName":memberName,"passWord":passWord},
+            success:function (result) {
+                if(result.code == 200){
+                    var v_token=result.data;
+                    console.log(v_token)
+                    $.cookie("token",v_token)
+                    location.href = "index.html";
+                } else if (result.code==5000) {
+                    console.log(result.data)
+                    var data=result.data;
+                    $.cookie("active",data)
+                    alert(result.msg);
+                    location.href = "active.html";
+                }
+            }
+        });
+
+    }
+</script>
+</html>

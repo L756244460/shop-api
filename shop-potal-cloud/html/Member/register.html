@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="../../js1/jquery.min.js"></script>
+
+    <!--&lt;!&ndash;响应式框架&ndash;&gt;
+    <link rel='stylesheet' href='../../js1/login/css/bootstrap.min.css'>
+
+    &lt;!&ndash;主要样式&ndash;&gt;
+    <link rel="stylesheet" href="../../js1/login/css/style.css">-->
+
+    <link href="../../js1/bootstrap-3.4.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="../../js1/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <!-- 引入boobox弹框插件的css文件和js文件 -->
+    <script src="../../js1/bootstrap-bootbox/bootbox.min.js"></script>
+    <script src="../../js1/bootstrap-bootbox/bootbox.locales.min.js"></script>
+
+    <link href="../../js1/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../js1/DataTables/DataTables-1.10.20/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../../js1/fileinput5/css/fileinput.css"/>
+    <link href="../../js1/treetable/css/jquery.treetable.css" rel="stylesheet">
+    <link href="../../js1/treetable/css/jquery.treetable.theme.default.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../js1/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="col-md-12">
+            <ul class="bg-danger" id="errorDiv"></ul>
+            <form class="form-horizontal" id="spuForm">
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">会员名:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="memberName" name="memberName" placeholder="请输入会员名" onblur="queryByName()">
+                        <span id="memeberNameTip"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">昵称:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="neckName" name="neckName" placeholder="请输入昵称">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">密码:</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">确认密码:</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" id="password1" name="password1" placeholder="请输入密码">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">电话号:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入电话"  onblur="queryByPhone()">
+                        <span id="memeberPhoneTip"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label">邮箱:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="mail" name="mail" onblur="queryByMail()" placeholder="请输入邮箱">
+                        <span id="memeberMailTip"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-sm-2 control-label"> 验证码：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="checkCode" placeholder="请输入验证码">
+                    </div>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="sendCode()" id="codeTime">获取验证码!</button>
+                     </span>
+                </div>
+
+            </form>
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-primary" id="redButton" onclick="register()">注册</button>
+                <button type="button" class="btn btn-primary" onclick="location.reload();"><span class="glyphicon glyphicon-refresh"></span> 重置</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<script type="text/javascript" src="../../js1/bootstrap-3.4.1-dist/js/index.js"></script>
+    <script src="../../js1/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="../../js1/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="../../js1/DataTables/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="../../js1/DataTables/DataTables-1.10.20/js/dataTables.bootstrap.min.js"></script>
+    <script src="../../js1/bootbox/bootbox.min.js"></script>
+    <script src="../../js1/bootbox/bootbox.locales.min.js"></script>
+    <script src="../../js1/fileinput5/js/fileinput.js"></script>
+    <script src="../../js1/fileinput5/js/locales/zh.js"></script>
+    <script src="../../js1/treetable/jquery.treetable.js"></script>
+    <script src="../../js1/bootstrap-datetimepicker/js/moment-with-locales.js"></script>
+    <script src="../../js1/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../js/common.js"></script>
+</body>
+
+<script>
+    
+    $(function () {
+
+    })
+
+    var v_error={};
+    var c_count=6;
+    function sendCode() {
+            //如果它存在说明手机号已验证
+            if (v_error["phone"]){
+
+                return;
+            }
+            var phone = $("[name=phone]").val();
+            if (phone.length==0){
+                v_error["memberName"]="<span style='color: red'><b>手机号为空</b></span>";
+                $("#memeberPhoneTip").html("<span style='color: red'><b>手机号为空</b></span>");
+                validate();
+                return;
+            }
+
+
+            //设置计时器
+            $("#redButton").attr("disabled","disabled");
+            count();
+
+
+
+
+
+        $.ajax({
+                 type:"post",
+                 data:{"phone":phone},
+                 url:server_url+"/information/sendCode",
+                 success:function(result){
+                     if(result.code ==200){
+                         alert("获取验证码成功");
+                     }
+                 },
+             })
+    }
+    
+    function count() {
+        c_count--;
+        if (c_count==0){
+            $("#codeTime").html("获取验证码");
+            $("#redButton").removeAttr("disabled");
+            c_count=6;
+            return;
+        }
+        $("#codeTime").html("倒计时"+c_count+"秒");
+        setTimeout(function () {
+            count();
+        },1000);
+    }
+    
+    
+    function validate() {
+        var v_res=[];
+        for (const x in v_error) {
+            //根据键获取值
+            v_res.push(v_error[x])
+        }
+        if (v_res.length>0){
+            $("#redButton").attr("disabled","disabled");
+            var v_html="";
+            for (const res of v_res) {
+                v_html +="<li>"+res+"</li>";
+            }
+            $("#errorDiv").html(v_html);
+        }else {
+            $("#redButton").removeAttr("disabled");
+            $("#errorDiv").html("");
+        }
+    }
+
+
+
+    //验证用户唯一
+    function queryByName() {
+        var memberName=$("[name=memberName]").val();
+        if (!memberName){
+            alert("请输入会员名");
+        }else {
+            $.ajax({
+                type:"post",
+                data:{"memberName":memberName},
+                url:server_url+"/member/queryByname",
+                success:function(result){
+                    console.log(result)
+                    if(result.code ==200){
+                        $("#memeberNameTip").html("<span style='color: red'><b>用户名可以使用</b></span>")
+                        //$("#redButton").removeAttr("disabled");
+                    }else {
+                        $("#memeberNameTip").html("<span style='color: red'><b>"+result.msg+"</b></span>")
+                        //$("#redButton").attr("disabled","disabled");
+                        v_error["memberName"]=result.msg;
+                    }
+                    validate();
+                },
+            })
+        }
+    }
+
+    function queryByMail() {
+        var mail=$("[name=mail]").val();
+            $.ajax({
+                type:"post",
+                data:{"mail":mail},
+                url:server_url+"/member/queryByMail",
+                success:function(result){
+                    console.log(result)
+                    if(result.code ==200){
+                        $("#memeberMailTip").html("<span style='color: red'><b>邮箱可以使用</b></span>")
+                    }else {
+                        $("#memeberMailTip").html("<span style='color: red'><b>"+result.msg+"</b></span>")
+                        v_error["mail"]=result.msg;
+                    }
+                    validate();
+                },
+            })
+    }
+
+    function queryByPhone() {
+        var phone=$("[name=phone]").val();
+            $.ajax({
+                type:"post",
+                data:{"phone":phone},
+                url:server_url+"/member/queryByPhone",
+                success:function(result){
+                    console.log(result)
+                    if(result.code ==200){
+                        $("#memeberPhoneTip").html("<span style='color: red'><b>电话号可以使用</b></span>")
+                    }else {
+                        $("#memeberPhoneTip").html("<span style='color: red'><b>"+result.msg+"</b></span>")
+                        v_error["phone"]=result.msg;
+                    }
+                    validate();
+                },
+            })
+    }
+    
+    
+    function register(){
+            var param = {};
+            // 获取用户名
+            param.memberName = $("[name=memberName]").val();
+            param.passWord = $("[name=password]").val();
+            param.password1 = $("[name=password1]").val();
+            param.neckName = $("[name=neckName]").val();
+            param.phone = $("[name=phone]").val();
+            param.mail = $("[name=mail]").val();
+            param.smmCord = $("#checkCode").val();
+            console.log(param)
+            $.ajax({
+                type:"post",
+                data:param,
+                url:server_url+"/member/addMember",
+                success:function(result){
+                    if(result.code ==200){
+                        alert("注册成功，请登录！");
+                        location.href = "../index.html";
+                    }
+                },
+            })
+    }
+</script>
+
+
+
+</html>

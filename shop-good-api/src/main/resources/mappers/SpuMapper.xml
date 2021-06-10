@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fh.shop.api.goods.mapper.ISpuMapper">
+
+
+
+    <select id="findStatusList" resultType="com.fh.shop.goods.po.Sku">
+        select  sku.id,sku.price,sku.skuName,sku.image from t_spu spu left join t_sku sku on spu.Id=sku.spuId where spu.downJia="1" and spu.oldOrnew="1" and spu.place="1"
+    </select>
+
+</mapper>

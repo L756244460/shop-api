@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1 style="color: red">请求无效，激活失败，请重新<a href="" onclick="active();">激活</a></h1>
+    <script type="text/javascript" src="../js1/bootstrap-3.4.1-dist/js/index.js"></script>
+    <script src="../js/jquery-3.3.1.js"></script>
+    <script src="../js/jquery.cookie.min.js"></script>
+    <script src="../js/common.js"></script>
+<script>
+    function active() {
+        var v_memberData=$.cookie("active");
+        console.log(v_memberData);
+        $.ajax({
+            type:"post",
+            url:server_url+"",
+
+        })
+    }
+</script>
+</body>
+</html>
